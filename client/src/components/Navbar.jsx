@@ -1,132 +1,242 @@
-import React, { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
-import { AppBar, Toolbar, IconButton, Typography, InputBase, Avatar, Menu, MenuItem, Box, Button } from "@mui/material";
-import { Menu as MenuIcon, Search as SearchIcon, Brightness4 as Brightness4Icon } from "@mui/icons-material";
-import { styled, alpha } from "@mui/material/styles";
-import LogoImg from "../utils/Images/Logo.png";
-import { useDispatch } from "react-redux";
-import { logout } from "../redux/reducers/userSlice";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import LogoImg from '../utils/Images/Logo.png';
+import { Link as LinkR, NavLink, Link } from 'react-router-dom';
+import { MenuRounded } from '@mui/icons-material';
+import { Avatar, Button, Menu, MenuItem, Typography, Box } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../redux/reducers/userSlice'; // Adjust the import according to your file structure
+import axios from 'axios'; // Assuming you're using axios for API calls
 
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(1),
-    width: "auto",
-  },
-}));
+const Nav = styled.div`
+  background-color: ${({ theme }) => theme.bg};
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  color: white;
+  border-bottom: 1px solid ${({ theme }) => theme.text_secondary + 20};
+`;
 
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
+const NavContainer = styled.div`
+  width: 100%;
+  max-width: 1400px;
+  padding: 0 24px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1rem;
+`;
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
-}));
+const NavLogo = styled(LinkR)`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 6px;
+  font-weight: 600;
+  font-size: 18px;
+  text-decoration: none;
+  color: ${({ theme }) => theme.black};
+`;
 
-const Navbar = ({ currentUser }) => {
+const Logo = styled.img`
+  height: 42px;
+`;
+
+const Mobileicon = styled.div`
+  color: ${({ theme }) => theme.text_primary};
+  display: none;
+  @media screen and (max-width: 768px) {
+    display: flex;
+    align-items: center;
+  }
+`;
+
+const NavItems = styled.ul`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  padding: 0 6px;
+  list-style: none;
+
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const Navlink = styled(NavLink)`
+  display: flex;
+  align-items: center;
+  color: ${({ theme }) => theme.text_primary};
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 1s slide-in;
+  text-decoration: none;
+  &:hover {
+    color: ${({ theme }) => theme.primary};
+  }
+  &.active {
+    color: ${({ theme }) => theme.primary};
+    border-bottom: 1.8px solid ${({ theme }) => theme.primary};
+  }
+`;
+
+const UserContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  align-items: center;
+  padding: 0 6px;
+  color: ${({ theme }) => theme.primary};
+`;
+
+const TextButton = styled.div`
+  text-align: end;
+  color: ${({ theme }) => theme.secondary};
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  &:hover {
+    color: ${({ theme }) => theme.primary};
+  }
+`;
+
+const MobileMenu = styled.ul`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 16px;
+  padding: 0 6px;
+  list-style: none;
+  width: 90%;
+  padding: 12px 40px 24px 40px;
+  background: ${({ theme }) => theme.bg};
+  position: absolute;
+  top: 80px;
+  right: 0;
+  transition: all 0.6s ease-in-out;
+  transform: ${({ isOpen }) => (isOpen ? 'translateY(0)' : 'translateY(-100%)')};
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  opacity: ${({ isOpen }) => (isOpen ? '100%' : '0')};
+  z-index: ${({ isOpen }) => (isOpen ? '1000' : '-1000')};
+`;
+
+const StyledLink = styled(Link)`
+  display: block;
+  width: 100%;
+  padding: 10px 20px;
+  color: ${({ theme }) => theme.text_primary};
+  text-decoration: none;
+  border: 1px solid ${({ theme }) => theme.primary};
+  border-radius: 4px;
+  background-color: ${({ theme }) => theme.bg_secondary};
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  &:hover {
+    background-color: ${({ theme }) => theme.primary};
+    color: ${({ theme }) => theme.bg};
+  }
+`;
+
+const Navbar = () => {
   const dispatch = useDispatch();
+  const [isOpen, setIsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const isMenuOpen = Boolean(anchorEl);
+  const [userData, setUserData] = useState(null);
+  const currentUser = useSelector((state) => state.user); // Adjust according to your state structure
 
-  const handleProfileMenuOpen = (event) => {
+  useEffect(() => {
+    // Fetch user data from API
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get('/api/user'); // Replace with your API endpoint
+        setUserData(response.data);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMenuClose = () => {
+  const handleClose = () => {
     setAnchorEl(null);
   };
 
   const handleLogout = () => {
     dispatch(logout());
-    handleMenuClose();
+    handleClose();
   };
 
-  const menuId = "primary-search-account-menu";
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleLogout}>Logout</MenuItem>
-    </Menu>
-  );
-
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" color="transparent" elevation={1}>
-        <Toolbar>
-          <Box component={RouterLink} to="/" sx={{ display: "flex", alignItems: "center", textDecoration: "none", color: "inherit" }}>
-            <img src={LogoImg} alt="Vidyalaya" style={{ height: 50 }} />
-            <Typography variant="h6" noWrap sx={{ marginLeft: 2 }}>
-              Vidyalaya
-            </Typography>
-          </Box>
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center", gap: 3 }}>
-            <Button color="inherit" component={RouterLink} to="/">Home</Button>
-            <Button color="inherit" component={RouterLink} to="/about">About</Button>
-            <Button color="inherit" component={RouterLink} to="/compare">Compare</Button>
-            <Button color="inherit" component={RouterLink} to="/blogs">Blogs</Button>
-            <Button color="inherit" component={RouterLink} to="/chat">Chat</Button>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Find school"
-                inputProps={{ "aria-label": "search" }}
-              />
-            </Search>
-            <IconButton color="inherit">
-              <Brightness4Icon />
-            </IconButton>
-            <IconButton edge="end" onClick={handleProfileMenuOpen} color="inherit">
-              <Avatar src={currentUser?.img} alt={currentUser?.name}>{currentUser?.name[0]}</Avatar>
-            </IconButton>
-          </Box>
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton edge="start" color="inherit" aria-label="open drawer" onClick={handleProfileMenuOpen}>
-              <MenuIcon />
-            </IconButton>
-          </Box>
-        </Toolbar>
-      </AppBar>
-      {renderMenu}
-    </Box>
+    <Nav>
+      <NavContainer>
+        <Mobileicon onClick={() => setIsOpen(!isOpen)}>
+          <MenuRounded sx={{ color: 'inherit' }} />
+        </Mobileicon>
+        <NavLogo to="/">
+          <Logo src={LogoImg} />
+          Fittrack
+        </NavLogo>
+
+        <MobileMenu isOpen={isOpen}>
+          <Navlink to="/">Home</Navlink>
+          <Navlink to="/about">About</Navlink>
+          <Navlink to="/compare">Compare</Navlink>
+          <Navlink to="/blogs">Blogs</Navlink>
+          <Navlink to="/chat">Chat</Navlink>
+        </MobileMenu>
+
+        <NavItems>
+          <Navlink to="/">Home</Navlink>
+          <Navlink to="/about">About</Navlink>
+          <Navlink to="/compare">Compare</Navlink>
+          <Navlink to="/blogs">Blogs</Navlink>
+          <Navlink to="/chat">Chat</Navlink>
+        </NavItems>
+
+        <UserContainer>
+          <Button onClick={handleClick}>
+            <Avatar src={currentUser?.img}>
+              {currentUser?.name ? currentUser.name[0] : ''}
+            </Avatar>
+          </Button>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <Box px={2} py={1}>
+              <Typography variant="body1">{userData?.email}</Typography>
+              <Typography variant="body1">{userData?.name}</Typography>
+            </Box>
+            <MenuItem onClick={handleClose}>
+              <StyledLink to="/profile">My Profile</StyledLink>
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <StyledLink to="/entrance">Entrance</StyledLink>
+            </MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+          </Menu>
+        </UserContainer>
+      </NavContainer>
+    </Nav>
   );
 };
 
