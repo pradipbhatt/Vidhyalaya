@@ -16,21 +16,21 @@ const WorkoutSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    sets: {
-      type: Number,
-    },
-    reps: {
-      type: Number,
-    },
-    weight: {
-      type: Number,
-    },
-    duration: {
-      type: Number,
-    },
-    caloriesBurned: {
-      type: Number,
-    },
+    // sets: {
+    //   type: Number,
+    // },
+    // reps: {
+    //   type: Number,
+    // },
+    // weight: {
+    //   type: Number,
+    // },
+    // duration: {
+    //   type: Number,
+    // },
+    // caloriesBurned: {
+    //   type: Number,
+    // },
     date: {
       type: Date,
       default: Date.now,

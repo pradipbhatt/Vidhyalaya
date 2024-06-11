@@ -29,7 +29,7 @@ const Title = styled.div`
 const AddWorkout = ({ workout, setWorkout, addNewWorkout, buttonLoading }) => {
   return (
     <Card>
-      <Title>Add New Workout</Title>
+      <Title>Add New Blog</Title>
       <TextInput
         label="Workout"
         textArea
@@ -37,16 +37,12 @@ const AddWorkout = ({ workout, setWorkout, addNewWorkout, buttonLoading }) => {
         placeholder={`Enter in this format:
 
 #Category
--Workout Name
--Sets
--Reps
--Weight
--Duration`}
+-Workout Name`}
         value={workout}
         handelChange={(e) => setWorkout(e.target.value)}
       />
       <Button
-        text="Add Workout"
+        text="Add Blogs"
         small
         onClick={() => addNewWorkout()}
         isLoading={buttonLoading}

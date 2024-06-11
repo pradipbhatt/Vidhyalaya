@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { counts } from "../utils/data";
-import CountsCard from "../components/cards/CountsCard";
-import WeeklyStatCard from "../components/cards/WeeklyStatCard";
-import CategoryChart from "../components/cards/CategoryChart";
-import AddWorkout from "../components/AddWorkout";
-import WorkoutCard from "../components/cards/WorkoutCard";
-import { addWorkout, getDashboardDetails, getWorkouts } from "../api";
+import { counts } from "../utils/data";  // Importing data for counts
+import CountsCard from "../components/cards/CountsCard";  // Importing CountsCard component
+import WeeklyStatCard from "../components/cards/WeeklyStatCard";  // Importing WeeklyStatCard component
+import CategoryChart from "../components/cards/CategoryChart";  // Importing CategoryChart component
+import AddWorkout from "../components/AddWorkout";  // Importing AddWorkout component
+import WorkoutCard from "../components/cards/WorkoutCard";  // Importing WorkoutCard component
+import { addWorkout, getDashboardDetails, getWorkouts } from "../api";  // Importing API functions
 
 const Container = styled.div`
   flex: 1;
@@ -64,16 +64,18 @@ const CardWrapper = styled.div`
 `;
 
 const Dashboard = () => {
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState();
-  const [buttonLoading, setButtonLoading] = useState(false);
-  const [todaysWorkouts, setTodaysWorkouts] = useState([]);
-  const [workout, setWorkout] = useState(`#Legs
+  // State variables
+  const [loading, setLoading] = useState(false);  // State for loading indicator
+  const [data, setData] = useState();  // State to store dashboard data
+  const [buttonLoading, setButtonLoading] = useState(false);  // State for button loading indicator
+  const [todaysWorkouts, setTodaysWorkouts] = useState([]);  // State to store today's workouts
+  const [workout, setWorkout] = useState(`#Blog-title:
 -Back Squat
 -5 setsX15 reps
 -30 kg
--10 min`);
+-10 min`);  // State to manage new workout input
 
+  // Function to fetch dashboard data from API
   const dashboardData = async () => {
     setLoading(true);
     const token = localStorage.getItem("fittrack-app-token");
@@ -83,6 +85,8 @@ const Dashboard = () => {
       setLoading(false);
     });
   };
+
+  // Function to fetch today's workouts from API
   const getTodaysWorkout = async () => {
     setLoading(true);
     const token = localStorage.getItem("fittrack-app-token");
@@ -93,6 +97,7 @@ const Dashboard = () => {
     });
   };
 
+  // Function to add a new workout
   const addNewWorkout = async () => {
     setButtonLoading(true);
     const token = localStorage.getItem("fittrack-app-token");
@@ -107,23 +112,29 @@ const Dashboard = () => {
       });
   };
 
+  // Fetch dashboard data and today's workouts on component mount
   useEffect(() => {
     dashboardData();
     getTodaysWorkout();
   }, []);
+
   return (
     <Container>
       <Wrapper>
+        {/* Dashboard title */}
         <Title>Dashboard</Title>
-        <FlexWrap>
+        
+        {/* Section for counts */}
+        {/* <FlexWrap>
           {counts.map((item) => (
             <CountsCard item={item} data={data} />
           ))}
-        </FlexWrap>
+        </FlexWrap> */}
 
+        {/* Section for weekly stats, category chart, and add workout form */}
         <FlexWrap>
-          <WeeklyStatCard data={data} />
-          <CategoryChart data={data} />
+          {/* <WeeklyStatCard data={data} />
+          <CategoryChart data={data} /> */}
           <AddWorkout
             workout={workout}
             setWorkout={setWorkout}
@@ -132,8 +143,9 @@ const Dashboard = () => {
           />
         </FlexWrap>
 
+        {/* Section for today's workouts */}
         <Section>
-          <Title>Todays Workouts</Title>
+          <Title>Todays Blogs</Title>
           <CardWrapper>
             {todaysWorkouts.map((workout) => (
               <WorkoutCard workout={workout} />

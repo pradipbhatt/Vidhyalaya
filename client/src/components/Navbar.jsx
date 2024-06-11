@@ -192,7 +192,7 @@ const Navbar = () => {
         </Mobileicon>
         <NavLogo to="/">
           <Logo src={LogoImg} />
-          Fittrack
+         Vidhyalaya
         </NavLogo>
 
         <MobileMenu isOpen={isOpen}>

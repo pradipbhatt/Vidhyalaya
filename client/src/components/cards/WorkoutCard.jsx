@@ -57,9 +57,10 @@ const WorkoutCard = ({ workout }) => {
       <Category>#{workout?.category}</Category>
       <Name>{workout?.workoutName}</Name>
       <Sets>
-        Count: {workout?.sets} sets X {workout?.reps} reps
+        {/* Count: {workout?.sets} */}
+         {/* sets X {workout?.reps} reps */}
       </Sets>
-      <Flex>
+      {/* <Flex>
         <Details>
           <FitnessCenterRounded sx={{ fontSize: "20px" }} />
           {workout?.weight} kg
@@ -68,7 +69,7 @@ const WorkoutCard = ({ workout }) => {
           <TimelapseRounded sx={{ fontSize: "20px" }} />
           {workout?.duration} min
         </Details>
-      </Flex>
+      </Flex> */}
     </Card>
   );
 };
