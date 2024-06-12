@@ -1,7 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { PieChart } from "@mui/x-charts/PieChart";
+import React from "react"; // Import React library to define React components
+import styled from "styled-components"; // Import styled-components for styling
+import { PieChart } from "@mui/x-charts/PieChart"; // Import PieChart component from Material-UI
 
+// Styled components for styling the card and title
 const Card = styled.div`
   flex: 1;
   min-width: 280px;
@@ -25,26 +26,27 @@ const Title = styled.div`
   }
 `;
 
+// Functional component to display a pie chart of weekly calories burned
 const CategoryChart = ({ data }) => {
   return (
-    <Card>
-      <Title>Weekly Calories Burned</Title>
-      {data?.pieChartData && (
-        <PieChart
+    <Card> {/* Render a styled card */}
+      <Title>Weekly Blogs</Title> {/* Render a title for the card */}
+      {data?.pieChartData && ( // Check if pieChartData is available in the data prop
+        <PieChart // Render a PieChart component with the pieChartData
           series={[
             {
-              data: data?.pieChartData,
-              innerRadius: 30,
-              outerRadius: 120,
-              paddingAngle: 5,
-              cornerRadius: 5,
+              data: data?.pieChartData, // Pass the pieChartData to the series prop
+              innerRadius: 30, // Set the inner radius of the pie chart
+              outerRadius: 120, // Set the outer radius of the pie chart
+              paddingAngle: 5, // Set the padding angle between sectors of the pie chart
+              cornerRadius: 5, // Set the corner radius of the sectors in the pie chart
             },
           ]}
-          height={300}
+          height={300} // Set the height of the pie chart
         />
       )}
     </Card>
   );
 };
 
-export default CategoryChart;
+export default CategoryChart; // Export the CategoryChart component

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import TextInput from "./TextInput";
-import Button from "./Button";
+import React, { useState } from "react"; // Import React and useState hook
+import styled from "styled-components"; // Import styled-components for styling
+import TextInput from "./TextInput"; // Import TextInput component
+import Button from "./Button"; // Import Button component
 
+// Styled component for the card container
 const Card = styled.div`
   flex: 1;
   min-width: 280px;
@@ -17,6 +18,7 @@ const Card = styled.div`
     padding: 16px;
   }
 `;
+// Styled component for the title of the card
 const Title = styled.div`
   font-weight: 600;
   font-size: 16px;
@@ -26,30 +28,31 @@ const Title = styled.div`
   }
 `;
 
+// Functional component for adding a new workout
 const AddWorkout = ({ workout, setWorkout, addNewWorkout, buttonLoading }) => {
   return (
-    <Card>
-      <Title>Add New Blog</Title>
+    <Card> {/* Render a styled card */}
+      <Title>Add New Blog</Title> {/* Render the title of the card */}
       <TextInput
-        label="Workout"
+        label="Blog"
         textArea
         rows={10}
         placeholder={`Enter in this format:
 
 #Category
--Workout Name`}
+-Blog Name`}
         value={workout}
         handelChange={(e) => setWorkout(e.target.value)}
-      />
+      /> {/* Render a TextInput component for entering workout details */}
       <Button
         text="Add Blogs"
         small
         onClick={() => addNewWorkout()}
         isLoading={buttonLoading}
         isDisabled={buttonLoading}
-      />
+      /> {/* Render a Button component for adding new blogs */}
     </Card>
   );
 };
 
-export default AddWorkout;
+export default AddWorkout; // Export the AddWorkout component as the default export

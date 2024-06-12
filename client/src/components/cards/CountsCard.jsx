@@ -1,6 +1,7 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"; // Import React library for defining React components
+import styled from "styled-components"; // Import styled-components for styling
 
+// Styled components for styling the card and its content
 const Card = styled.div`
   flex: 1;
   min-width: 200px;
@@ -80,23 +81,24 @@ const Desc = styled.div`
   }
 `;
 
+// Functional component to display a card with counts and an icon
 const CountsCard = ({ item, data }) => {
   return (
-    <Card>
-      <Left>
-        <Title>{item.name}</Title>
-        <Value>
-          {data && data[item.key].toFixed(2)}
-          <Unit>{item.unit}</Unit>
-          <Span positive>(+10%)</Span>
+    <Card> {/* Render a styled card */}
+      <Left> {/* Render the left section of the card */}
+        <Title>{item.name}</Title> {/* Render the title of the count */}
+        <Value> {/* Render the value of the count */}
+          {data && data[item.key].toFixed(2)} {/* Render the count value */}
+          <Unit>{item.unit}</Unit> {/* Render the unit of the count */}
+          <Span positive>(+10%)</Span> {/* Render a positive span */}
         </Value>
-        <Desc>{item.desc}</Desc>
+        <Desc>{item.desc}</Desc> {/* Render the description of the count */}
       </Left>
-      <Icon color={item.color} bg={item.lightColor}>
+      <Icon color={item.color} bg={item.lightColor}> {/* Render the icon */}
         {item.icon}
       </Icon>
     </Card>
   );
 };
 
-export default CountsCard;
+export default CountsCard; // Export the CountsCard component as the default export

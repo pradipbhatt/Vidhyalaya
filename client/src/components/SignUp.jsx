@@ -7,13 +7,17 @@ import { useDispatch } from "react-redux";
 import { loginSuccess } from "../redux/reducers/userSlice";
 
 const Container = styled.div`
-  width: 100%;
+  width: 90%;
   max-width: 500px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 36px;
+  gap: 10px;
+  padding: 24px;
+  border-radius: 8px;
+  background-color: ${({ theme }) => theme.bg_secondary};
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
 `;
-
 const Title = styled.div`
   font-size: 30px;
   font-weight: 800;

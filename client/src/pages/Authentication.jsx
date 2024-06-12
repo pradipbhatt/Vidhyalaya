@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import LogoImage from "../utils/Images/Logo.png";
-import AuthImage from "../utils/Images/AuthImage.jpg";
+import LogoImage from "../utils/Images/Logo1.png";
+import AuthImage from "../utils/Images/bro.png";
 import SignIn from "../components/SignIn";
 import SignUp from "../components/SignUp";
 
@@ -21,18 +21,20 @@ const Left = styled.div`
     display: none;
   }
 `;
-const Logo = styled.img`
-  position: absolute;
-  width: 70px;
-  top: 40px;
-  left: 60px;
-  z-index: 10;
-`;
+// const Logo = styled.img`
+//   position: absolute;
+//   width: 70px;
+//   top: 40px;
+//   left: 60px;
+//   z-index: 10;
+// `;
 const Image = styled.img`
   position: relative;
-  height: 100%;
-  width: 100%;
+  height: 90%;
+  width: 80%;
+  margin-left:100px;
   object-fit: cover;
+  padding:20px;
 `;
 
 const Right = styled.div`
@@ -67,7 +69,7 @@ const Authentication = () => {
   return (
     <Container>
       <Left>
-        <Logo src={LogoImage} />
+        {/* <Logo src={LogoImage} /> */}
         <Image src={AuthImage} />
       </Left>
       <Right>
