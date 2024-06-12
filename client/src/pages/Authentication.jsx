@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import LogoImage from "../utils/Images/Logo1.png";
+// import LogoImage from "../utils/Images/Logo1.png";
 import AuthImage from "../utils/Images/bro.png";
 import SignIn from "../components/SignIn";
 import SignUp from "../components/SignUp";

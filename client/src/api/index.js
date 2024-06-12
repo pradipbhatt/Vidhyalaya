@@ -22,16 +22,16 @@ export const getDashboardDetails = async (token) =>
     headers: { Authorization: `Bearer ${token}` },
   });
 
-// Function to get workouts by date, requires a token for authorization
-export const getWorkouts = async (token, date) =>
-  // Make a GET request to the /user/workout endpoint with the provided date and token in headers
-  API.get(`/user/workout${date}`, {
+// Function to get Blogss by date, requires a token for authorization
+export const getBlogs = async (token, date) =>
+  // Make a GET request to the /user/Blogs endpoint with the provided date and token in headers
+  API.get(`/user/blogs${date}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 
-// Function to add a workout, requires a token for authorization
-export const addWorkout = async (token, data) =>
-  // Make a POST request to the /user/workout endpoint with the provided data and token in headers
-  API.post(`/user/workout`, data, {
+// Function to add a Blogs, requires a token for authorization
+export const addBlogs = async (token, data) =>
+  // Make a POST request to the /user/Blogs endpoint with the provided data and token in headers
+  API.post(`/user/Blogs`, data, {
     headers: { Authorization: `Bearer ${token}` },
   });

@@ -4,8 +4,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Authentication from "./pages/Authentication";
 import { useSelector } from "react-redux";
 import Navbar from "./components/Navbar";
-import Dashboard from "./pages/Dashboard";
-import Workouts from "./pages/Workouts";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Compare from "./pages/Compare";
@@ -38,8 +36,7 @@ function App() {
             <Navbar currentUser={currentUser} />
             <Routes>
             <Route path="/" exact element={<Home />} />
-              <Route path="/dashboard" exact element={<Dashboard />} />
-              <Route path="/workouts" exact element={<Workouts />} />
+              <Route path="/blogs" exact element={<Blogs />} />
               <Route path="/about" exact element={<About />} />
               <Route path="/compare" exact element={<Compare />} />
               <Route path="/blogs" exact element={<Blogs />} />

@@ -39,7 +39,7 @@ const connectDB = () => {
   mongoose.set("strictQuery", true); // Set Mongoose to use strict query mode
   mongoose
     .connect(process.env.MONGODB_URL) // Connect to MongoDB using URL from environment variable
-    .then(() => console.log("Connected to Mongo DB Atlas")) // Log success message if connection is successful
+    .then(() => console.log("Connected to Mongo DB Atlas Changed !!")) // Log success message if connection is successful
     .catch((err) => {
       console.error("Failed to connect with Mongo"); // Log failure message if connection fails
       console.error(err); // Log the error details
